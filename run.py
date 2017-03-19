@@ -1,6 +1,9 @@
 """ Version:1.0 """
 import cherrypy
 import signal
+
+from __builtin__ import dict
+
 import controller.RootController
 
 
@@ -10,7 +13,7 @@ def shutdown(signum, frame):
 
 signal.signal(signal.SIGINT, shutdown)
 
-config = {}
+config = dict()
 config['log.error_file'] = 'err.log'  # error log file
 
 cherrypy.config.update(config)
