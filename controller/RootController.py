@@ -6,20 +6,25 @@ import model.template as template
 import imp
 import sys
 
+
 class RootController(object):
 
     def __init__(self):
         cwd = os.getcwd()
 
         if os.name is 'nt':
-            self.html_dir = cwd + "\\view\\"
+            self.html_dir = "\\view\\"
             self.module_dir = cwd + "\\model\\request_functions\\"
+            self.files = os.listdir(cwd + self.html_dir + "\\sites\\")
+            # list all files in the sites folder and make them callable
         elif os.name is 'posix':
-            self.html_dir = cwd + "/view/sites/"
+            self.html_dir = "/view/"
             self.module_dir = cwd + "/model/request_functions/"
+            self.files = os.listdir(cwd + self.html_dir + "/sites/")
+            # list all files in the sites folder and make them callable
         else:
             return
-        self.files = os.listdir(self.html_dir)  # list all files in the sites folder and make them callable
+        template.Template.path = cwd + self.html_dir  # set path for templates
         self.py_files = os.listdir(self.module_dir)
         del self.py_files[0]  # remove __init__.py from list
         self._import_modules()
@@ -29,7 +34,7 @@ class RootController(object):
 
     @cherrypy.expose
     def index(self):
-        return template.Template.self_render_template(self.html_dir + "index.html")
+        return template.Template.self_render_template("sites/index.html")
 
     def _cp_dispatch(self, vpath):
         """
