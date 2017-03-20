@@ -5,14 +5,34 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     {% if modile %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% endif %}
+    <script language="JavaScript" src="/static/js/jquery/jquery.min.js"></script>
+    <script language="JavaScript" src="/static/js/bootstrap/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    {% else %}
     <script language="JavaScript" src="/static/js/jquery/jquery.js"></script>
     <script language="JavaScript" src="/static/js/bootstrap/bootstrap.js"></script>
     <link rel="stylesheet" href="static/css/bootstrap.css">
+    {% endif %}
 	{% block head %}{% endblock %}
 </head>
 <body>
-{% block body %}
-{% endblock %}
+<div class="pageheader">
+    <p></p>
+    {% block bodyhead %}
+    {% endblock %}
+</div>
+<div class="container bg-primary">
+    <div class="row">
+        <div class="col-md-1"></div>
+            <div class="col-md-10">
+                {% block body %}
+                {% endblock %}
+            </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+<footer class="footer">
+
+</footer>
 </body>
 </html>
