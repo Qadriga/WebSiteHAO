@@ -61,7 +61,7 @@ class RootController(object):
         """
         print name
         if (name + ".html") in self.files:
-            return template.Template.self_render_template(self.html_dir + name + ".html")
+            return template.Template.self_render_template("sites/" + name + ".html")
         else:
             raise cherrypy.HTTPError(404, "Nothing founded on this Server")
 
