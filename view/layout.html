@@ -14,24 +14,41 @@
     <link rel="stylesheet" href="static/css/bootstrap.css">
     {% endif %}
 	{% block head %}{% endblock %}
+    <style type="text/css">
+        body { background: green;}
+        .navbar-brand{
+            padding: 0 15px;
+        }
+    </style>
 </head>
 <body>
 <div class="pageheader">
     <p></p>
+</div>
+<div class="container-fluid">
     {% block bodyhead %}
     {% endblock %}
-</div>
-<div class="container bg-primary">
     <div class="row">
         <div class="col-md-1"></div>
             <div class="col-md-10">
                 {% block body %}
                 {% endblock %}
+                <br>
+
+                    <nav class="nav navbar navbar-default">
+                        <p class="navbar-text pull-left">© 2014 - Site Built By Mr. M.
+                        <a href="/Impressum" target="_blank" >Impressum</a>
+                    </p>
+                        <a href="http://youtu.be/zJahlKPCL9g" class="navbar-btn btn-danger btn pull-right">
+                            <span class="glyphicon glyphicon-star"></span>YouTube Kannal</a>
+                    </nav>
             </div>
         <div class="col-md-1"></div>
     </div>
 </div>
 <footer class="footer">
+    <div class="container-fluid">
+    </div>
 
 </footer>
 </body>
