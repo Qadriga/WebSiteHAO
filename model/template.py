@@ -1,16 +1,13 @@
 """version: 1.0"""
 
-from jinja2 import Template as Template_jinja
 from jinja2 import Environment as env
 from jinja2 import TemplateNotFound
 from jinja2 import FileSystemLoader
-import os
-
 from pip._vendor.lockfile import Error
 
 
 class Template(object):
-    path = None
+    path = None  # static class variable only set once for the entire application
 
     @staticmethod
     def self_render_template(filename, template_vars={}):
