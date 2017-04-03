@@ -7,6 +7,12 @@ def testing():
     return "this is a test function"
 
 
+def init():
+    return dict()
+
+INIT = init
+
+
 class my_test_class(object):
     var1 = 0
 
