@@ -3,6 +3,7 @@
 import cherrypy
 import os
 import model.template as template
+import importlib
 import imp
 import sys
 
@@ -10,15 +11,24 @@ import sys
 class RootController(object):
 
     def __init__(self):
-        cwd = os.getcwd()
+        """
+        constructor of this class
+        """
+        self._init_structure()
 
+    def _init_structure(self):
+        """
+        class method for (re)loading the html structure and post-methods
+        :return:
+        """
+        cwd = os.getcwd()
         if os.name is 'nt':
-            self.html_dir = "\\view\\"
+            self.html_dir = "\\html\\"
             self.module_dir = cwd + "\\model\\request_functions\\"
             self.files = os.listdir(cwd + self.html_dir + "\\sites\\")
             # list all files in the sites folder and make them callable
         elif os.name is 'posix':
-            self.html_dir = "/view/"
+            self.html_dir = "/html/"
             self.module_dir = cwd + "/model/request_functions/"
             self.files = os.listdir(cwd + self.html_dir + "/sites/")
             # list all files in the sites folder and make them callable
@@ -27,10 +37,26 @@ class RootController(object):
         template.Template.path = cwd + self.html_dir  # set path for templates
         self.py_files = os.listdir(self.module_dir)
         del self.py_files[0]  # remove __init__.py from list
+        self.remove_pyc_files(self.py_files)
+        self._import_sites()
         self._import_modules()
         print self.files
         print self.py_files
         return
+
+    @staticmethod
+    def remove_pyc_files(array=[]):
+        """
+        function to filter only .py files out from a list of filename
+        :param array: array with to filter
+        :return: new list of filename
+        """
+        new_array = []
+        for element in array:
+            extention = os.path.splitext(element)[1]
+            if extention == '.py':
+                new_array.append(element)
+        return new_array
 
     @cherrypy.expose
     def index(self):
@@ -43,9 +69,9 @@ class RootController(object):
         :return:
         """
         if len(vpath) == 1:
-            cherrypy.request.params['name'] = vpath.pop()
-            return self.file_expose
-        elif len(vpath) == 2:
+            cherrypy.request.params['name'] = vpath.pop()  # add sections from the url to the request params
+            return self.file_expose  # return the method to handle the request
+        elif len(vpath) == 2:  # to the same for the post request handler
             cherrypy.request.params['post_name'] = vpath.pop(1)
             cherrypy.request.params['name'] = vpath.pop(0)
             return self.post_expose
@@ -61,7 +87,10 @@ class RootController(object):
         """
         print name
         if (name + ".html") in self.files:
-            return template.Template.self_render_template("sites/" + name + ".html")
+            if os.name == 'posix':
+                return template.Template.self_render_template("sites/" + name + ".html")
+            else:
+                return template.Template.self_render_template("sites\\" + name + ".html")
         else:
             raise cherrypy.HTTPError(404, "Nothing founded on this Server")
 
@@ -86,54 +115,80 @@ class RootController(object):
         :return: function which matches to the given function name
         """
 
+    def _import_sites(self):
+        """
+        method for scanning views folder for function files
+        :return:
+        """
+        self.display_functions = dict()  # create empty dict
+        if os.name is 'nt':
+            filelist = os.listdir(os.getcwd() + "\\view\\")
+        elif os.name is 'posix':
+            filelist = os.listdir(os.getcwd() + "/view/")
+        try:
+            del filelist[filelist.index("__init__.py")]
+            del filelist[filelist.index("__init__.pyc")]  # remove the package init from the list it should'n
+            #  have functions to import
+        except ValueError:
+            # catch exception if python bytecode file is not present
+            pass
+        for dat in filelist:
+            basename, extention = os.path.splitext(dat)  # split the filename and fileextention
+            if extention == ".py":  # check if is is a python code file
+                try:
+                    mod = importlib.import_module("." + basename, "view")  # import module from view
+                    if hasattr(mod, "INIT"):  # check if module has INIT variable and it's a Function reference
+                        init_func = mod.INIT
+                        if callable(init_func):
+                            functions = init_func()  # execute the init function
+                            for key, data in functions:
+                                if key not in self.display_functions:
+                                    self.display_functions[key] = data
+                                    print("Imported Module Function " + key)
+                                else:
+                                    print("Module " + str(basename) + " can't register function " + key
+                                          + " Name already exist")
+                except ImportError, e:
+                    print("Could not Import " + str(basename) + "\nError message: " + e.message)
+                except ValueError:
+                    pass
+        return
+
     def _import_modules(self):
         """
         wrapper function to import all functions founded at request_functions
         :return:
         """
-        import module as mlib
-        func_names = list()
-        module_names = list()
-        for file_name in self.py_files:
-            module_name = os.path.splitext(file_name)[0]
-            try:
-                module = __import__('model.request_functions.' + module_name, globals(), locals(), func_names, -1)
-                print dir(module)
-            except ImportError:
-                pass
-            module_names.append(module_name)
-        print module_names
-
-    @staticmethod
-    def my_import(self, module_name, func_names=[], cache=False):
-        if module_name in globals() and cache:
-            return True
+        if os.name is 'nt':
+            filelist = os.listdir(os.getcwd() + "\\model\\request_functions")
+        elif os.name is 'posix':
+            filelist = os.listdir(os.getcwd() + "/model/request_functions/")
         try:
-            m = __import__(module_name, globals(), locals(), func_names, -1)
-            if func_names:
-                for func_name in func_names:
-                    globals()[func_name] = getattr(m, func_name)
-            else:
-                globals()[module_name] = m
-            return True
-        except ImportError:
-            return False
+            del filelist[filelist.index("__init__.py")]
+            del filelist[filelist.index("__init__.pyc")]  # remove the package init from the list it should'n
+            #  have functions to import
+        except ValueError:
+            # catch exception if python bytecode file is not present
+            pass
+        for dat in filelist:
+            basename, extention = os.path.splitext(dat)  # split the filename and fileextention
+            if extention == ".py":  # check if is is a python code file
+                try:
+                    mod = importlib.import_module("." + basename, "model.request_functions")  # import module from view
+                    if hasattr(mod, "INIT"):  # check if module has INIT variable and it's a Function reference
+                        init_func = mod.INIT
+                        if callable(init_func):
+                            functions = init_func()  # execute the init function
+                            for key, data in functions:
+                                if key not in self.display_functions:
+                                    self.display_functions[key] = data
+                                    print("Imported Module Function " + key)
+                                else:
+                                    print("Module " + str(basename) + " can't register function " + key
+                                          + " Name already exist")
+                except ImportError, e:
+                    print("Could not Import " + str(basename) + "\nError message: " + e.message)
+                except ValueError:
+                    pass
+        return
 
-    @staticmethod
-    def my_imports(modules):
-        for module in modules:
-            if type(module) is tuple:
-                name = module[0]
-                funcs = module[1]
-            else:
-                name = module
-                funcs = []
-            if not RootController.my_import(name, funcs):
-                return module
-        return ''
-
-    @staticmethod
-    def check_Plugins_Imports(plugin, modules):
-        c = RootController.my_imports(modules)
-        if c:
-            print plugin + " has errors!: module '" + c + "' not found"
