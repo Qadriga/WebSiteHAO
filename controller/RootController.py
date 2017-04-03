@@ -37,7 +37,7 @@ class RootController(object):
         template.Template.path = cwd + self.html_dir  # set path for templates
         self.py_files = os.listdir(self.module_dir)
         del self.py_files[0]  # remove __init__.py from list
-        self.remove_pyc_files(self.py_files)
+        self.py_files = self.remove_pyc_files(self.py_files)
         self._import_sites()
         self._import_modules()
         print self.files
@@ -86,11 +86,15 @@ class RootController(object):
         :return:
         """
         print name
-        if (name + ".html") in self.files:
+        if name in self.display_functions:
+            return self.display_functions[name](*args, **kwargs)  # execute function pass args and kwargs
+        elif (name + ".html") in self.files:
             if os.name == 'posix':
                 return template.Template.self_render_template("sites/" + name + ".html")
-            else:
+            elif os.name == 'nt':
                 return template.Template.self_render_template("sites\\" + name + ".html")
+            else:
+                pass  # just to run clearly into the raise of the exception
         else:
             raise cherrypy.HTTPError(404, "Nothing founded on this Server")
 
@@ -141,13 +145,14 @@ class RootController(object):
                         init_func = mod.INIT
                         if callable(init_func):
                             functions = init_func()  # execute the init function
-                            for key, data in functions:
-                                if key not in self.display_functions:
-                                    self.display_functions[key] = data
-                                    print("Imported Module Function " + key)
-                                else:
-                                    print("Module " + str(basename) + " can't register function " + key
-                                          + " Name already exist")
+                            if isinstance(functions, dict):
+                                for key, data in functions.iteritems():
+                                    if key not in self.display_functions:
+                                        self.display_functions[key] = data
+                                        print("Imported Module Function " + key)
+                                    else:
+                                        print("Module " + str(basename) + " can't register function " + key
+                                              + " Name already exist")
                 except ImportError, e:
                     print("Could not Import " + str(basename) + "\nError message: " + e.message)
                 except ValueError:
@@ -179,7 +184,7 @@ class RootController(object):
                         init_func = mod.INIT
                         if callable(init_func):
                             functions = init_func()  # execute the init function
-                            for key, data in functions:
+                            for key, data in functions.iteritems():
                                 if key not in self.display_functions:
                                     self.display_functions[key] = data
                                     print("Imported Module Function " + key)
