@@ -123,6 +123,8 @@ class RootController(object):
             filelist = os.listdir(os.getcwd() + "\\view\\")
         elif os.name is 'posix':
             filelist = os.listdir(os.getcwd() + "/view/")
+        else:
+            filelist = os.listdir(os.getcwd() + os.sep + "model" + os.sep + "request_functions" + os.sep)
         try:
             del filelist[filelist.index("__init__.py")]
             del filelist[filelist.index("__init__.pyc")]  # remove the package init from the list it should'n
