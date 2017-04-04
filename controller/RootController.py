@@ -105,9 +105,11 @@ class RootController(object):
         :param kwargs: additional keyword arguments
         :return:
         """
-        if kwargs['name'] is 'post':
-
-            return "Post Expose"
+        if kwargs['name'] == 'post':
+            try:
+                return self.postController.execute_function(post_name, args, kwargs)
+            except KeyError:
+                raise cherrypy.HTTPError(404)
         else:
             raise cherrypy.HTTPError(404)
 
@@ -138,7 +140,9 @@ class RootController(object):
                         if callable(init_func):
                             functions = init_func()  # execute the init function
                         elif isinstance(init_func, dict):
-                            functions = init_func()
+                            functions = init_func
+                        else:
+                            functions = dict()
                         if isinstance(functions, dict):
 
                             if isinstance(functions, dict):
