@@ -145,6 +145,10 @@ class RootController(object):
                         init_func = mod.INIT
                         if callable(init_func):
                             functions = init_func()  # execute the init function
+                        elif isinstance(init_func, dict):
+                            functions = init_func()
+                        if isinstance(functions, dict):
+
                             if isinstance(functions, dict):
                                 for key, data in functions.iteritems():
                                     if key not in self.display_functions:
@@ -184,6 +188,9 @@ class RootController(object):
                         init_func = mod.INIT
                         if callable(init_func):
                             functions = init_func()  # execute the init function
+                        elif isinstance(init_func, dict):
+                            functions = init_func()
+                        if isinstance(functions, dict):
                             for key, data in functions.iteritems():
                                 if key not in self.display_functions:
                                     self.display_functions[key] = data
