@@ -4,9 +4,7 @@ import cherrypy
 import os
 import model.template as template
 import importlib
-import imp
-import sys
-
+import controller.PostController
 
 class RootController(object):
 
@@ -34,12 +32,13 @@ class RootController(object):
             # list all files in the sites folder and make them callable
         else:
             return
+        self.postController = controller.PostController.PostController(self.module_dir)  # pass path to Post Controller
         template.Template.path = cwd + self.html_dir  # set path for templates
         self.py_files = os.listdir(self.module_dir)
         del self.py_files[0]  # remove __init__.py from list
         self.py_files = self.remove_pyc_files(self.py_files)
         self._import_sites()
-        self._import_modules()
+        # self._import_modules()
         print self.files
         print self.py_files
         return
@@ -107,17 +106,10 @@ class RootController(object):
         :return:
         """
         if kwargs['name'] is 'post':
+
             return "Post Expose"
         else:
             raise cherrypy.HTTPError(404)
-
-    def find_function(self, function_name, filename=None):
-        """
-        find a function which matches to function name
-        :param function_name: function name to find
-        :param filename: filename where the function can be founded
-        :return: function which matches to the given function name
-        """
 
     def _import_sites(self):
         """
@@ -153,7 +145,7 @@ class RootController(object):
                                 for key, data in functions.iteritems():
                                     if key not in self.display_functions:
                                         self.display_functions[key] = data
-                                        print("Imported Module Function " + key)
+                                        print("Imported Display Function " + key)
                                     else:
                                         print("Module " + str(basename) + " can't register function " + key
                                               + " Name already exist")
@@ -163,44 +155,4 @@ class RootController(object):
                     pass
         return
 
-    def _import_modules(self):
-        """
-        wrapper function to import all functions founded at request_functions
-        :return:
-        """
-        if os.name is 'nt':
-            filelist = os.listdir(os.getcwd() + "\\model\\request_functions")
-        elif os.name is 'posix':
-            filelist = os.listdir(os.getcwd() + "/model/request_functions/")
-        try:
-            del filelist[filelist.index("__init__.py")]
-            del filelist[filelist.index("__init__.pyc")]  # remove the package init from the list it should'n
-            #  have functions to import
-        except ValueError:
-            # catch exception if python bytecode file is not present
-            pass
-        for dat in filelist:
-            basename, extention = os.path.splitext(dat)  # split the filename and fileextention
-            if extention == ".py":  # check if is is a python code file
-                try:
-                    mod = importlib.import_module("." + basename, "model.request_functions")  # import module from view
-                    if hasattr(mod, "INIT"):  # check if module has INIT variable and it's a Function reference
-                        init_func = mod.INIT
-                        if callable(init_func):
-                            functions = init_func()  # execute the init function
-                        elif isinstance(init_func, dict):
-                            functions = init_func()
-                        if isinstance(functions, dict):
-                            for key, data in functions.iteritems():
-                                if key not in self.display_functions:
-                                    self.display_functions[key] = data
-                                    print("Imported Module Function " + key)
-                                else:
-                                    print("Module " + str(basename) + " can't register function " + key
-                                          + " Name already exist")
-                except ImportError, e:
-                    print("Could not Import " + str(basename) + "\nError message: " + e.message)
-                except ValueError:
-                    pass
-        return
 
