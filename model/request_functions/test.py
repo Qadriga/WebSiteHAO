@@ -3,12 +3,12 @@ test file for dynamic load of functions at runtime
 """
 
 
-def testing():
+def testing(*args, **kwargs):
     return "this is a test function"
 
 
 def init():
-    return dict()
+    return {'test': testing}
 
 INIT = init
 
