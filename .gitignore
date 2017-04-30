@@ -8,6 +8,11 @@ __pycache__/
 
 # Pycharm extentions
 .idea/
+
+# Gallery images are not included to this Project( Owner Rights )
+static/images/gallery/*
+
+
 # Distribution / packaging
 .Python
 env/
