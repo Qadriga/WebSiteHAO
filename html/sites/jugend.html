@@ -2,63 +2,21 @@
 {% block head %}
 {% endblock %}
 {% block body %}
-<nav class="nav navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <a class="navbar-brand" href="/">
-                <div class="row">
-                    <img src="/static/images/icon.png" alt="Brand">
-                     HAO-Reilingen e.V.
-                </div>
-            </a>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">1. Orchester <span class="caret"></span> </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/pagelink">Page Name</a></li>
-                        <li><a href="/pagelink">Page Name</a> </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Jubiläums Orchester<span class="caret"></span> </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/pagelink">Page Name</a></li>
-                        <li><a href="/pagelink">Page Name</a> </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Jugend Orchester<span class="caret"></span> </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/pagelink">Page Name</a></li>
-                        <li><a href="/pagelink">Page Name</a> </li>
-                    </ul>
-                </li>
-                <li class="">
-                    <a href="/pagelink">Aktuelles</a>
-                </li>
-                <li class="">
-                    <a href="/pagelink">Fotoalbum</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+{% include "util/nav_bar.html" %} {# include nav bar #}
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-9">
         <div class="well">
-            Hier steht ein Artikel
+            <h2>Jugendorchester</h2>
+        <div>
+            <p>Hier sammeln unsere Jüngsten ab 10 Jahren nicht nur erste Erfahrungen im Orchesterspiel, sondern erleben die Freude an der Musik und am gemeinsamen Musizieren mit Freunden. Auch der Übergang ins 1. Orchester wird den Spielern durch den frühen Einstieg erleichtert.</p>
+            <p>Aktuell arbeitet das Orchester an seinem Programm für das Frühjahrskonzert am <b>14. Mai 2017</b>. Im Programm befindet sich unter anderem die "New York Ouvertüre" von Kees Vlak und ein Werk gemeinsam mit unserer Akkorden AG.</p>
+            <p>Im Mai nimmt das Orchester mit dem Jugendensemble unserer Freunde "Akkordeon im Quadrat" an den Deutschen Meisterschaften für Jugendorchester Teil. Wir wünschen viel Erfolg!!</p>
+            <p>Probe ist jeden Mittwoch von 18:30 Uhr bis 20 Uhr in unserem Proberaum im Franz-Riegler-Haus Reilingen.</p>
+
         </div>
-        <div class="well">
-            Wichtige Nachricht
+
+
         </div>
     </div>
     <div class="col-md-2"></div>
