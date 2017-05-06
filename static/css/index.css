@@ -4,7 +4,7 @@
   margin: auto;
 }*/
 .carousel-inner{
-  height: 500px;
+  max-height: 500px;
 }
 .carousel-inner .item{
   overflow: hidden;
@@ -13,8 +13,14 @@
 }
 .carousel-inner .item img {
   width: 100%;
-  min-height: 100%;
-  max-height: none;
+  /*min-height: 100%;
+  max-height: none;*/
+  height: auto;
+  border-radius : 5px;
+  margin: auto;
+}
+.carousel-inner .item a img {
+    margin: auto;
 }
 #myCarousel{
   margin: inherit;
@@ -22,4 +28,22 @@
 #calendar{
   background-color: navy;
   border-radius: 15px;
+}
+.carousel-caption p{
+    color : rgb(225,225,225);
+}
+.carousel-caption h3{
+    color : rgb(255,255, 255)
+}
+h5 span{
+  background-color: #BC1818;
+  color:#fff;  
+  
+}
+.separator{
+  border-bottom:solid;
+  border-color:#bc1818;
+  margin-top:0px;
+  margin-bottom: 10px;
+  
 }
