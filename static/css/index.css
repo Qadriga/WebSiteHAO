@@ -35,15 +35,16 @@
 .carousel-caption h3{
     color : rgb(255,255, 255)
 }
-h5 span{
-  background-color: #af2323;
-  color:#fff;  
-  
-}
-.separator{
+
+.article > .separator {
   border-bottom:solid;
   border-color:#af2323;
   margin-top:0px;
   margin-bottom: 10px;
+  
+}
+.article > h5 >span {
+  background-color: #af2323;
+  color:#fff;  
   
 }
