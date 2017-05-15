@@ -11,7 +11,8 @@ __pycache__/
 
 # Gallery images are not included to this Project( Owner Rights )
 static/images/gallery/*
-
+# image backups from gimps xcf files
+*.xcf
 
 # Distribution / packaging
 .Python
