@@ -10,9 +10,9 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <a class="navbar-brand" href="/">
-                <div id="easter" class="row">
-                    <img src="/static/images/logo.png" alt="Brand">
-                    <audio id="easter-egg"><source src="/static/music/intro.mp3" type="audio/mpeg"></audio>
+                <div  class="row">
+                    <img src="/static/images/logo.png" alt="Brand" id="easter">
+                    <audio id="easter-egg" src="/static/music/intro.mp3" ></audio>
                 </div>
 
             </a>
@@ -42,13 +42,12 @@
     </div>
 </nav>
 <script language="JavaScript" >
-
+    var audio = document.getElementById('easter-egg');
     $('#easter').hover(function(event){
-        console.log($('#easter-egg').volume)
-        $('#easter-egg').play(); //start the sound file
+        audio.play();//start sound file
     }
     ,function(event){
-        $('#easter-egg').pause();
-        $('#easter-egg').currentTime(0); // jump to begin of the sound file
+        audio.pause();
+        audio.currentTime = 0; // jump to begin of the sound file
     });
 </script>
