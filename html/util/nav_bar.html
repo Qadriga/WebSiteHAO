@@ -10,10 +10,11 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <a class="navbar-brand" href="/">
-                <div class="row">
+                <div id="easter" class="row">
                     <img src="/static/images/logo.png" alt="Brand">
-                     <!-- HAO-Reilingen e.V. -->
+                    <audio id="easter-egg"><source src="/static/music/intro.mp3" type="audio/mpeg"></audio>
                 </div>
+
             </a>
             <ul class="nav navbar-nav">
                 <li class="dropdown">
@@ -40,3 +41,14 @@
         </div>
     </div>
 </nav>
+<script language="JavaScript" >
+
+    $('#easter').hover(function(event){
+        console.log($('#easter-egg').volume)
+        $('#easter-egg').play(); //start the sound file
+    }
+    ,function(event){
+        $('#easter-egg').pause();
+        $('#easter-egg').currentTime(0); // jump to begin of the sound file
+    });
+</script>
