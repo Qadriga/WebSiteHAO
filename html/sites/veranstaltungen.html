@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block head %}
 <link rel="stylesheet" href="/static/css/index.css"><!--custom css file for the index page -->
+<link rel="stylesheet" href="/static/css/timeline.css">
 {% endblock %}
 
 {% block body %}
@@ -9,10 +10,69 @@
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10">
-        <div class="well"><!--  -->
-            Some Test
-        </div>
+        <section class="timeline">
+			<ul>
+				{% for item in dates %}
+				<li>
+					<div>
+						<time>{{ item.get("d_day") }}</time>
+						<h3>{{ item.get("d_eventname")}}</h3>
+						{% if item.get("d_text") %}
+						{{item.get("d_text")}}
+						{% endif %}
+					</div>
+				</li>
+				{% endfor %}
+{#
+				<li>
+					<div>
+						<time>25 Mai 2016</time>
+						Unser Jahr 2016
+					</div>
+				</li>
+				<li>
+					<div>
+						<time>26 Mai 2016</time>
+						aufbau und Feier
+					</div>
+				</li>
+				<li>
+					<div>
+						<time>27 Mai 2016</time>
+						Abbau und Party
+					</div>
+				</li> #}
+			</ul>
+
+	</section> <!-- end timeline -->
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-1">
+    </div>
 </div>
+{% endblock %}
+{% block script %}
+<script language="JavaScript">
+	function isElementInViewport(el) {
+  var rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+var items = document.querySelectorAll(".timeline li");
+
+// code for the isElementInViewport function
+function callbackFunc() {
+  for (var i = 0; i < items.length; i++) {
+    if (isElementInViewport(items[i])) {
+      items[i].classList.add("in-view");
+    }
+  }
+}
+
+window.addEventListener("load", callbackFunc);
+window.addEventListener("scroll", callbackFunc);
+</script>
 {% endblock %}
