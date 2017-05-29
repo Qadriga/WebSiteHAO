@@ -1,5 +1,4 @@
-
-#import _mysql
+# import _mysql
 import MySQLdb as _mysql
 from MySQLdb.cursors import DictCursor
 MYSQL = True
@@ -50,7 +49,6 @@ class Database(object):
         res = cur.fetchall()
         # print res
         return res
-
 
 
 if __name__ == "__main__":
