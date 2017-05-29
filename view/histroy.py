@@ -9,7 +9,7 @@ class Events(object):
     def site(self):
         temp_vars = dict()
         temp_vars['dates'] = list()
-        dates = db.Database().query(table_name="dates")  # should return a dict tuple
+        dates = db.Database().query(table_name="dates", ordered_by=" d_day desc")  # should return a dict tuple
         for items in dates:  # item is an dict in the tuple
             for key, values in items.iteritems():
                 if isinstance(values, str):
