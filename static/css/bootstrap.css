@@ -6318,8 +6318,8 @@ button.close {
 }
 .carousel-control {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 50%;
+  bottom: 50%;
   left: 0;
   width: 15%;
   font-size: 20px;
@@ -6328,7 +6328,7 @@ button.close {
   text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
   background-color: rgba(0, 0, 0, 0);
   filter: alpha(opacity=50);
-  opacity: .5;
+  opacity: .7;
 }
 .carousel-control.left {
   background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);
@@ -6365,6 +6365,7 @@ button.close {
   z-index: 5;
   display: inline-block;
   margin-top: -10px;
+  border-radius: 5px;
 }
 .carousel-control .icon-prev,
 .carousel-control .glyphicon-chevron-left {
@@ -6444,6 +6445,9 @@ button.close {
     height: 30px;
     margin-top: -10px;
     font-size: 30px;
+    border-radius: 35px;
+    background: rgba(255,255,255,.5);
+    color: #337ab7;
   }
   .carousel-control .glyphicon-chevron-left,
   .carousel-control .icon-prev {
