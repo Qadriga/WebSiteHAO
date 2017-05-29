@@ -18,12 +18,13 @@ class Database(object):
     def __del__(self):
         self.con.close()
 
-    def query(self, column=list(), row_selection=dict(), table_name=str()):
+    def query(self, column=list(), row_selection=dict(), table_name=str(), ordered_by=None):
         """
         Used for to query the database 
         :param column: column names which should be selected
         :param row_selection: selection of an row equal to WHERE statement dict key='value' 
-        :param table_name: name of the table which should be used 
+        :param table_name: name of the table which should be used
+        :param ordered_by: should be a string with additional arguments for ordering the result
         :return: dict of results
         """
         # SELECT columns FROM table_name WHERE row_selection
@@ -41,6 +42,10 @@ class Database(object):
         for key, value in row_selection.iteritems():
             tmp = str(key) + "='" + str(value) + "' "
             querystring += tmp
+
+        if isinstance(ordered_by, str):
+            querystring = querystring + " ORDER BY " + ordered_by
+
         cur = self.con.cursor(DictCursor)  # use the python dict cursor
         print (querystring % tuple(queryargs))
 
@@ -53,4 +58,4 @@ class Database(object):
 
 if __name__ == "__main__":
     database = Database()
-    database.query(table_name="dates")
+    database.query(table_name="dates", ordered_by="d_day desc")
