@@ -1,10 +1,20 @@
 """ Version:1.0 """
-import cherrypy
-import signal
-from model.template import Template
+
 from __builtin__ import dict
+
+import signal
 import os
+
+try:
+    import cherrypy
+except ImportError, e:
+    print "ERROR dependencies not satisfied\nRunning pip to get them"
+    import pip
+    pip.main(args=["install", "-r", "requirements.txt"])
+    import cherrypy
+
 import controller.RootController
+from model.template import Template
 
 
 def shutdown(signum, frame):
