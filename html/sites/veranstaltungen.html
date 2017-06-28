@@ -20,6 +20,9 @@
 						{% if item.get("d_text") %}
 						{{item.get("d_text")}}
 						{% endif %}
+						{% if item.get("d_link_to_page") %}
+						<a href="{{ item.get("d_link_to_page") }}">[mehr]</a>
+						{% endif %}
 					</div>
 				</li>
 				{% endfor %}
