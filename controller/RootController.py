@@ -5,7 +5,7 @@ import os
 import model.template as template
 import importlib
 import controller.PostController
-
+from model.database import Database
 class RootController(object):
 
     def __init__(self):
@@ -59,7 +59,9 @@ class RootController(object):
 
     @cherrypy.expose
     def index(self):
-        return template.Template.self_render_template("sites/index.html")
+        temp_vars = dict()
+        temp_vars.update({'terms': Database().query(table_name="terms", ordered_by="t_date desc")})
+        return template.Template.self_render_template("sites/index.html", temp_vars)
 
     def _cp_dispatch(self, vpath):
         """

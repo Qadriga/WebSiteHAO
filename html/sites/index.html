@@ -13,9 +13,18 @@
 
         <div class="col-md-4">
             <div class="article">
-                <h5 style="margin:0px;"><span>Eherungen</span></h5>
+                <h5 style="margin:0px;"><span>Termine</span></h5>
                 <div class="separator"></div>
-                <p>Some Example Text </p>
+                <p>
+                {% for item in terms %}
+                    {{item.get("t_date").strftime("%d.%m.%Y")}}
+                    {% if item.get("t_link_url") %}
+                    <a href="{{item.get("t_link_url")}}">{{item.get("t_name")}}</a>
+                    {% else %}
+                    {{item.get("t_name")}}
+                    {% endif %}
+                {% endfor %}
+                </p>
             </div>
 
 
