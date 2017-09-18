@@ -163,4 +163,24 @@ class RootController(object):
                     pass
         return
 
+    def render_all_sites(self):
+        """
+        this function is used to render all sites and write them into files,
+        all files will stored at html_rendered folder
+        :return: None
+        """
+        dirpath = os.getcwd() + os.sep + "html" + os.sep + "rendered"
+        if not os.path.exists(dirpath):
+            os.makedirs(dirpath)
+        work_list = list(set(self.files) - set(self.display_functions.keys()))
+        for elem in work_list:
+            elem = elem.split(".")
+            content = self.file_expose(elem[0])
+            with file(dirpath+os.sep+elem[0]+"."+elem[1], 'w') as f:
+                f.write(content.encode('utf-8').strip())
 
+
+if __name__ == "__main__":
+    os.chdir(os.getcwd()+os.sep+"..")  # set Path to parent dir for relative file access
+    test_class = RootController()
+    test_class.render_all_sites()
