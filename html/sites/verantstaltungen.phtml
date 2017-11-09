@@ -1,0 +1,85 @@
+<?php
+include_once $_SERVER['DOCUMENT_ROOT'].'/application/Database/PassedDates/PassedDatesFactory.php';
+$Database = PassedDatesFactory::getInstance()->getPassedDatesConnection();
+$result = $Database->getAllEntries();
+
+?>
+<br>
+<div class="row">
+    <!-- div class="col-md-1"></div-->
+    <div id="container" class="col-md-12 pre-scrollable" style="overflow-x:hidden;max-height:70vh;">
+        <section class="timeline">
+			<ul>
+			<?php foreach ($result as $row){ 
+					?><li>
+					<div><?php
+					$date = $row->getDate();
+					print "<time>".$date->format("d m y")."</time>";
+					if($row->getName()!= ""){
+							print "<h3>".$row->getName()."</h3>";
+					}
+					
+					if(($e = $row->getText()) != ""){
+							print $e;
+					}
+					
+					if($e = $row->getLink()!= ""){	
+						print "<a href=".$e.">[mehr]</a>";	
+					}?>
+					</div>
+				</li>
+				<?php 
+			}?>
+				<li>
+					<div>
+						<time>25 Mai 2016</time>
+						Unser Jahr 2016
+					</div>
+				</li>
+				<li>
+					<div>
+						<time>26 Mai 2016</time>
+						aufbau und Feier
+					</div>
+				</li>
+				<li>
+					<div>
+						<time>27 Mai 2016</time>
+						Abbau und Party
+					</div>
+				</li>
+			</ul>
+
+	</section> <!-- end timeline -->
+    </div>
+    <!-- div class="col-md-1"></div-->
+</div>
+<script type="Application/JavaScript">
+	function isElementInViewport(el) {
+  var rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+var items = document.querySelectorAll(".timeline li");
+
+// code for the isElementInViewport function
+function callbackFunc() {
+  for (var i = 0; i < items.length; i++) {
+    if (isElementInViewport(items[i])) {
+      items[i].classList.add("in-view");
+    }
+    else{
+        if(items[i].classList.contains("in-view")){
+            items[i].classList.remove("in-view");
+        }
+    }
+  }
+}
+var cont = document.getElementById("container");
+cont.addEventListener("load", callbackFunc);
+cont.addEventListener("scroll", callbackFunc);
+</script>

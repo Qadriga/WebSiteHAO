@@ -1,0 +1,26 @@
+<?php
+include_once $_SERVER['DOCUMENT_ROOT']."/application/Database/UpcommingDates/UpcommingDatesFactory.php";
+$Datbase = UpcommingDatesFactory::getInstance()->getUpcommingDatesConnection();
+$results = $Datbase->getNewest(7);
+
+?>
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10">
+<div class="well"><!--  -->
+<?php
+	foreach ($results as $var){
+		?>
+		<div class=obj>
+		<p>Name:<?php print $var->getName();?></p>
+		<p>Link:<?php print $var->getLink();?></p>
+		<p>Datetime: <?php print $var->getDate()->format(DateTime::ATOM);?></p>
+		</div>
+		<?php 
+	}
+?>
+</div>
+</div>
+<div class="col-md-1"></div>
+</div>
+

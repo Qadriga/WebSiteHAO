@@ -1,0 +1,76 @@
+<?php
+?>
+<br/>
+<div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-9">
+        <div class="well">
+            
+        <h2><?php echo str_replace("_", " ", $ALBUMNAME)?></h2>
+            <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+                <div class="slides"></div>
+                <h3 class="title"></h3>
+                <a class="prev">‹</a>
+                <a class="next">›</a>
+                <a class="close">×</a>
+                <a class="play-pause"></a>
+                <ol class="indicator"></ol>
+            </div>
+        <div id="links">
+        <?php
+        //print "static/images/gallery/".$ALBUMNAME;
+        $FOLDER = dir("static/images/gallery/".$ALBUMNAME) ;
+        if ( $FOLDER === FALSE || $FOLDER === NULL){
+        	http_response_code(404);
+        	die();
+        }	
+        ?>
+     <?php
+            while (($IMAGE = $FOLDER->read()) !== FALSE){
+            	if( $IMAGE === "." || $IMAGE ===".."){
+            		continue;
+            	}	
+            	if (preg_match_all("/\.(jpe?g|GIF|png)/i", $IMAGE) === 0){
+            		continue;
+            	}
+            if (($LOOPINDEX % 4) === 0){// use inline override for displaying  make new row if one is full
+            ?><div class="row" style="margin:30px">
+			 <?php }
+			 ?>   <div class="col-md-3 img-item">
+                    <a href="static/images/gallery/<?php echo $ALBUMNAME; ?>/<?php echo $IMAGE ?>" data-gallery>
+                         <img src="static/images/gallery/<?php echo $ALBUMNAME; ?>/<?php echo $IMAGE; ?> " style="height: 120px; width: 100%;" class="img-responsive">
+                    </a>
+                </div><?php  if ($LOOPINDEX % 4 === 3){ // insert rowend statement if 3 elements are in one row
+			?>
+	</div><!-- end of row -->
+            <?php }
+            $LOOPINDEX++;
+            ?>
+            <?php }
+            $FOLDER->close();
+            # in the last looprun insert row end statement if the row is not full #
+            if(($LOOPINDEX % 4) !== 3){// skip the last if row is full because it is already there
+            	?>
+    </div><!-- end of last row -->
+<?php 
+            }
+            else {
+            ?>    
+			</div><!-- end of loop -->
+            <?php }?>
+         </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<script type="application/javascript">
+   var elements = document.getElementsByClassName('img-item');
+   console.log(elements);
+   /*for( int i = 0; i< elements.length; i++){
+        ;
+   }*/
+
+};
+
+</script>

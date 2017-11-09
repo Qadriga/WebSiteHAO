@@ -1,0 +1,79 @@
+<?php
+include "html/util/carousel.html";
+include_once $_SERVER['DOCUMENT_ROOT']."/application/Database/UpcommingDates/UpcommingDatesFactory.php";
+$Datbase = UpcommingDatesFactory::getInstance()->getUpcommingDatesConnection();
+$results = $Datbase->getNewest(3);
+
+?>
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="article">
+                <h5 style="margin:0px;"><span>Termine</span></h5>
+                <div class="separator"></div>
+                <p>Unsere Nächsten Auftritte<br/>
+                <?php
+                foreach ($results as $var){
+                ?>
+                	<?php print $var->getName();?> am <?php print $var->getDate()->format("d.m.Y ")." um ".$var->getDate()->format("H:i");?>
+                	<?php if($var->getLink() != ""){print "<a href='".$var->getLink()."'> [mehr]</a>";}?><br>
+                <?php 	
+                } ?>
+                </p>
+            </div>
+
+
+        </div>
+        <div class="col-md-4">
+
+            <!--div class="article">
+                <h5 style="margin:0px;"><span>Termine</span></h5>
+                <div class="separator"></div>
+                <p>Some Example Text </p>
+            </div -->
+            <div class="article">
+                <h5 style="margin:0px;"><span>Frühlings-Konzert</span></h5>
+                <div class="separator"></div>
+                <p>Unser Frühlings-Konzert 2017 in der voll besetzten Fritz Mannherz Halle in Reilingen,
+                    war ein voller Erfolg. <a href="/fruejahrskonzert2017.html">[mehr]</a>
+                <!--div id="calendar"> fruejahrskonzert2017</div -->
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="article">
+                <h5 style="margin:0px;"><span>Bundeswertungsspielen Düsseldorf</span></h5>
+                <div class="separator"></div>
+                <p>Das Jugendorchester räumt in Düsseldorf ab !!!! <a href="/jugend.html">[mehr]</a> </p>
+            </div>
+        </div>
+    </div>
+<br>
+<script src="/static/js/bootstrap/bootstrap-datepicker.js"></script>
+<script type="Application/JavaScript">
+$(document).ready(function(){
+    $('.datepicker').datepicker();
+    $('#calendar').datepicker({
+        language: "de",
+        todayHighlight: true,
+        beforeShowDay: function (date){
+        if (date.getMonth() == (new Date()).getMonth())
+            switch (date.getDate()){
+            case 4:
+            return {
+                tooltip: 'Example tooltip',
+                classes: 'active'
+            };
+            case 8:
+                return false;
+            case 12:
+                return "green";
+            }
+        },
+        beforeShowMonth: function (date){
+        if (date.getMonth() == 8) {
+            return false;
+        }
+    }
+});
+});
+</script>

@@ -1,0 +1,57 @@
+<nav class="nav navbar navbar-default" style="margin-bottom:0px;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <a class="navbar-brand" href="/index.html">
+                <!-- div  class="row"-->
+                    <img src="static/images/logo.png" alt="Brand" id="easter">
+                    <audio id="easter-egg" src="/static/music/intro.mp4" ></audio>
+                <!--  /div-->
+
+            </a>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Über Uns<span class="caret"></span> </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/orchester1.html">1. Orchester</a></li>
+                        <li><a href="/jugend.html">Jugendorcheser</a> </li>
+                        <li><a href="/jubilaeumsorchester.html">Jubiläumsorchester</a> </li>
+                        <!-- <li><a href="/pagelink">Vorstand</a> </li>
+                        <li><a href="/pagelink">Dirigent</a> </li>
+                        <li><a href="/pagelink">Schulkooperation</a> </li>-->
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="/verantstaltungen.html">Veranstaltungen</a>
+                </li>
+                <li class="">
+                    <a href="/fotopage.html">Bildergallerie</a>
+                </li>
+                <li class="">
+                    <a href="/geschichte.html">Geschichte</a>
+                </li>
+                <li>
+                    <a href="/freunde.html">Freunde</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br/>
+<script  type="application/javascript">
+    var audio = document.getElementById('easter-egg');
+    $('#easter').hover(function(event){
+        audio.play();//start sound file
+    }
+    ,function(event){
+        audio.pause();
+        audio.currentTime = 0; // jump to begin of the sound file
+    });
+</script>
