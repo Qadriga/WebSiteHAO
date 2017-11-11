@@ -34,31 +34,25 @@
             	if (preg_match_all("/\.(jpe?g|GIF|png)/i", $IMAGE) === 0){
             		continue;
             	}
-            if (($LOOPINDEX % 4) === 0){// use inline override for displaying  make new row if one is full
-            ?><div class="row" style="margin:30px">
-			 <?php }
-			 ?>   <div class="col-md-3 img-item">
-                    <a href="static/images/gallery/<?php echo $ALBUMNAME; ?>/<?php echo $IMAGE ?>" data-gallery>
-                         <img src="static/images/gallery/<?php echo $ALBUMNAME; ?>/<?php echo $IMAGE; ?> " style="height: 120px; width: 100%;" class="img-responsive">
-                    </a>
-                </div><?php  if ($LOOPINDEX % 4 === 3){ // insert rowend statement if 3 elements are in one row
-			?>
-	</div><!-- end of row -->
-            <?php }
-            $LOOPINDEX++;
-            ?>
-            <?php }
+                if (($LOOPINDEX % 4) === 0){// use inline override for displaying  make new row if one is full
+                echo PHP_EOL.'<div class="row" style="margin:30px">';
+                }
+		 ?><div class="col-md-3 img-item">
+                <a href="static/images/gallery/<?php echo $ALBUMNAME; ?>/<?php echo $IMAGE ?>" data-gallery>
+                     <img src="static/images/gallery/<?php echo $ALBUMNAME; ?>/<?php echo $IMAGE; ?> " style="height: 120px; width: 100%;" class="img-responsive">
+                </a>
+                </div>
+        <?php  if ($LOOPINDEX % 4 === 3){ // insert rowend statement if 3 elements are in one row
+			        echo PHP_EOL.'</div><!-- end of row -->';
+                }
+                $LOOPINDEX++;
+                }
             $FOLDER->close();
             # in the last looprun insert row end statement if the row is not full #
-            if(($LOOPINDEX % 4) !== 3){// skip the last if row is full because it is already there
-            	?>
-    </div><!-- end of last row -->
-<?php 
+            if(!((--$LOOPINDEX % 4) === 3)){// skip the last if row is full because it is already there
+            	echo "</div><!-- end of last row -->";
             }
-            else {
-            ?>    
-			</div><!-- end of loop -->
-            <?php }?>
+            ?>
          </div>
         </div>
     </div>

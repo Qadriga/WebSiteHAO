@@ -56,14 +56,14 @@ $result = $Database->getAllEntries();
 </div>
 <script type="Application/JavaScript">
 	function isElementInViewport(el) {
-  var rect = el.getBoundingClientRect();
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
-}
+	  var rect = el.getBoundingClientRect();
+	  return (
+	    rect.top >= 0 &&
+	    rect.left >= 0 &&
+	    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+	    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+	  );
+	}
 var items = document.querySelectorAll(".timeline li");
 
 // code for the isElementInViewport function
@@ -80,6 +80,6 @@ function callbackFunc() {
   }
 }
 var cont = document.getElementById("container");
-cont.addEventListener("load", callbackFunc);
+window.addEventListener("load",callbackFunc);
 cont.addEventListener("scroll", callbackFunc);
 </script>

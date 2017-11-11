@@ -35,11 +35,8 @@ function overwirte_file($FILENAME,$DATA,$INCLUDE_PATH=NULL){
 }
 function render($FILE="index",$FILEEXTENTION=".html"){
 	$_ROOT = getcwd();
-	if(search_file($FILE.".if","html/inc")){
-		include 'html/inc/'.$FILE.'.if';
-	}
-	elseif (search_file($FILE.".php","html/inc")){
-		include 'html/inc/'.$FILE.'.php';
+	if (search_file($FILE.".php","html/inc")){
+		include $_SERVER['DOCUMENT_ROOT'].'/html/inc/'.$FILE.'.php';
 	}
 	include 'html/util/top.phtml';
 	include 'html/util/nav_bar.html';

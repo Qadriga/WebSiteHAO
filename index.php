@@ -7,8 +7,8 @@
 
 include_once 'html/util/lib.php';
 if(!array_key_exists("site", $_GET)){
-	print "run it as server module";
-	die();
+	render("index",".phtml");
+	exit();
 }
 $REQUEST_FILE = $_GET['site'];
 //print $REQUEST_FILE;

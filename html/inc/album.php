@@ -2,15 +2,18 @@
 $Path = getcwd();
 $LOOPINDEX = 0;
 $ALBUMNAME = $_GET['name'];
+$PICTURES = array();
 //$ALBUMNAME = "Test";
 if (!is_string($ALBUMNAME)){
 	http_response_code(500);
 	die();
 }
-elseif(is_dir($FOLDER = dir("static/images/gallery/".$ALBUMNAME))!=FALSE){
+$FOLDER = dir($_SERVER['DOCUMENT_ROOT']."/static/images/gallery/".$ALBUMNAME);
+if(! ($FOLDER instanceof  Directory)){
+	http_response_code(500);
 	include_once 'html/util/lib.php';
-	render('404','.html');
-	die();
+	render('500','.html');
+	exit();
 }
 else {
 	$INCS = ['<script src="/static/js/blueimp/blueimp-gallery.js"></script>',
@@ -18,4 +21,14 @@ else {
 			'<script src="/static/js/blueimp/jquery.blueimp-gallery.js"></script>'
 	];
 }
+/*	
+while (($IMAGE = $FOLDER->read()) !== FALSE){
+	if( $IMAGE === "." || $IMAGE ===".."){
+		continue;
+	}
+	if (preg_match_all("/\.(jpe?g|GIF|png)/i", $IMAGE) === 0){
+		continue;
+	}
+	$PICTURES[] = $IMAGE; 
+}*/
 ?>

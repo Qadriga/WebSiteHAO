@@ -1,5 +1,5 @@
 
-php_value display_errors 0
+php_value display_errors 1
 php_value log_errors 1
 php_value error_log /var/www/Site/error.log
 
@@ -10,5 +10,6 @@ php_value error_log /var/www/Site/error.log
 	RewriteRule ^\.htaccess$ - [F]
 	RewriteRule ^\/html\/(.+) - [F]
 	RewriteRule ^\/requests\/(.+) - [F]
-	RewriteRule ^(.+)\.html$ /dispatch.php?site=$1
+	RewriteRule ^(.+)\.html$ /index.php?site=$1 [L,QSA]
+	# RewriteRule ^(.*)$ /index.php?site=$1 [L]
 </IfModule>
