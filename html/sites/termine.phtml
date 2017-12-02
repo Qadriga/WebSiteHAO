@@ -8,17 +8,18 @@ $results = $Datbase->getNewest(7);
 <div class="col-md-1"></div>
 <div class="col-md-10">
 <div class="well"><!--  -->
-<?php
+<?php /*
 	foreach ($results as $var){
-		?>
-		<div class=obj>
-		<p>Name:<?php print $var->getName();?></p>
-		<p>Link:<?php print $var->getLink();?></p>
-		<p>Datetime: <?php print $var->getDate()->format(DateTime::ATOM);?></p>
-		</div>
-		<?php 
-	}
+		?><br><div class=obj>
+        	<?php print $var->getName();?> am <?php print $var->getDate()->format("d.m.Y ")." um ".$var->getDate()->format("H:i");?>
+               	<?php if($var->getLink() != ""){print "<a href='".$var->getLink()."'> [mehr]</a>";}?><br>
+            </div><br><?php 	
+            } ?>
+<?php 
+	*/
 ?>
+<iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;height=600&amp;wkst=2&amp;bgcolor=%23ffffff&amp;src=reilingen.hao%40gmail.com&amp;color=%231B887A&amp;ctz=Europe%2FBerlin" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+&pi; &Pi; 
 </div>
 </div>
 <div class="col-md-1"></div>

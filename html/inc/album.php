@@ -17,8 +17,14 @@ if(! ($FOLDER instanceof  Directory)){
 }
 else {
 	$INCS = ['<script src="/static/js/blueimp/blueimp-gallery.js"></script>',
-			'<link rel="stylesheet" href="static/css/blueimp/blueimp-gallery.min.css">'.
-			'<script src="/static/js/blueimp/jquery.blueimp-gallery.js"></script>'
+			'<link rel="stylesheet" href="static/css/blueimp/blueimp-gallery-video.css">',
+			'<link rel="stylesheet" href="static/css/blueimp/blueimp-gallery-indicator.css">',
+			'<link rel="stylesheet" href="static/css/blueimp/blueimp-gallery.min.css">',
+			'<script src="/static/js/blueimp/jquery.blueimp-gallery.js"></script>',
+			'<script src="/static/js/blueimp/blueimp-gallery-video.js"></script>',
+			'<script src="/static/js/blueimp/blueimp-gallery-fullscreen.js"></script>',
+			'<script src="/static/js/blueimp/blueimp-gallery-indicator.js"></script>'
+			
 	];
 }
 /*	
